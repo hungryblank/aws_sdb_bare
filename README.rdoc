@@ -1,0 +1,7 @@
+= aws_sdb_bare
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Paolo Negri. See LICENSE for details.
