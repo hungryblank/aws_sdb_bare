@@ -1,6 +1,42 @@
 = aws_sdb_bare
 
-Description goes here.
+AwsSdb Bare is a ruby gem intended to provide a basic modular interface to use
+the SimpleDB service provided by Amazon.
+
+== Concept
+
+Is AwdSdb Bare is to not commit to any http handling strategy and to
+not force any response parsing solution by default.
+
+The rationale behind the project is to provide a basic layer on top of which
+more high level libraries can be built.
+
+== Project sources
+
+the project is hosted on github http://github.com/hungryblank/aws_sdb_bare
+
+== Support and bug tracking
+
+issues can be posted on github http://github.com/hungryblank/aws_sdb_bare
+forking and patch proposal throguh github are encouraged
+
+== Usage - Requests
+
+The most basic primitive is the request, as a sample here's how a ListDomains
+request is generated
+
+  require 'rubygems'
+  require 'aws_sdb_bare'
+
+  ENV['AMAZON_ACCESS_KEY_ID'] = 'your_amazon_access_key'
+  ENV['AMAZON_SECRET_ACCESS_KEY'] = 'your_amazon_secret'
+
+  #create the request object
+  request = AwsSdb::Request::Base.new('GET', 'Action' => 'ListDomains')
+
+  #using curl we can send the request as http get and print out the xml
+  #response with the domains under your account
+  puts `curl #{request.uri}`
 
 == Copyright
 
