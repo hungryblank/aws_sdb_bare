@@ -5,20 +5,25 @@ the SimpleDB service provided by Amazon.
 
 == Concept
 
-Is AwdSdb Bare is to not commit to any http handling strategy and to
-not force any response parsing solution by default.
+The aim of the project is to not commit to any http handling strategy and to
+not enforce any response parsing solution by default.
 
-The rationale behind the project is to provide a basic layer on top of which
+The rationale behind that project is to provide a basic layer on top of which
 more high level libraries can be built.
 
 == Project sources
 
 the project is hosted on github http://github.com/hungryblank/aws_sdb_bare
+blog posts explaining the usage can be found on assertbuggy.blogspot.com
 
 == Support and bug tracking
 
 issues can be posted on github http://github.com/hungryblank/aws_sdb_bare
 forking and patch proposal throguh github are encouraged
+
+== Installation
+
+  sudo gem install hungryblank-aws_sdb_bare -s http://gems.github.com
 
 == Usage - Requests
 
@@ -38,6 +43,18 @@ request is generated
   #response with the domains under your account
   puts `curl #{request.uri}`
 
+The gem provides classes to create directly all the requests listed in
+Amazon's 2007 11 07 specs so you can do
+
+  request = AwsSdb::Request::ListDomains.new
+
+Instead of using the Base class like the previous example
+Please refer to the gem rdocs and to the amazon documentation to see
+a list of all the available requests and their parameters
+
+Rdoc are available at rdoc.elastastic.com/aws_sdb_bare
+
+  
 == Copyright
 
 Copyright (c) 2009 Paolo Negri. See LICENSE for details.
