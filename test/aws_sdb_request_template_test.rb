@@ -50,7 +50,7 @@ class AwsSdbRequestTemplateTest < Test::Unit::TestCase
     req.attributes = {:color => :black, :shape => {:value => :square, :replace => true}}
     assert_attribute({'Action' => 'PutAttributes'}, req.uri_query)
     assert_attribute({'ItemName' => 'my_item'}, req.uri_query)
-    shape_index = query_hash(req.uri_query)['Attribute.0.Name'] == 'square' ? 0 : 1
+    shape_index = query_hash(req.uri_query)['Attribute.0.Name'] == 'shape' ? 0 : 1
     assert_attribute({"Attribute.#{shape_index}.Name" => 'shape'}, req.uri_query)
     assert_attribute({"Attribute.#{shape_index}.Value" => 'square'}, req.uri_query)
     assert_attribute({"Attribute.#{shape_index}.Replace" => 'true'}, req.uri_query)

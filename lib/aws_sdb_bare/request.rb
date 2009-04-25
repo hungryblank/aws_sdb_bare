@@ -6,7 +6,7 @@ module AwsSdb
 
       HOST = 'sdb.amazonaws.com'
 
-      attr_accessor :account, :secret
+      attr_accessor :account, :secret, :params
 
       def initialize(method, params, opts={})
         @account = opts[:account] || ENV['AMAZON_ACCESS_KEY_ID']
@@ -132,7 +132,7 @@ module AwsSdb
         end
       end
 
-      protected
+      private
 
       def expand!
         @params.keys.each do |key|
@@ -217,6 +217,23 @@ module AwsSdb
     #would have the same effect
     class PutAttributes < Template
 
+      class << self
+        def batch(*requests)
+          items_params = requests.map { |r| r.send(:expand!) }
+          first_request = requests.first.request
+          account = first_request.account
+          secret = first_request.secret
+          batch_params = {}
+          batch_params['DomainName'] ||= first_request.params['DomainName']
+          items_params.each_with_index do |params, index|
+            params.keys.each do |key|
+              batch_params["Item.#{index.to_s + '.' + key}"] = params[key] if key =~ /^ItemName|Attribute/
+            end
+          end
+          BatchPutAttributes.new(batch_params, {:account => account, :secret => secret})
+        end
+      end
+
       shortcuts({'ItemName' =>  :name, 'DomainName' => :domain})
 
       def attributes=(attributes)
@@ -232,7 +249,7 @@ module AwsSdb
           end
           values = [values] unless values.is_a?(Array)
           values.each do |value|
-            @params["Attribute.#{index}.Replace"] = replace
+            @params["Attribute.#{index}.Replace"] = replace if replace
             @params["Attribute.#{index}.Name"] = attr_name.to_s
             @params["Attribute.#{index}.Value"] = value
             index += 1
@@ -243,15 +260,7 @@ module AwsSdb
     end
 
     class BatchPutAttributes < Template
-
       shortcuts({'DomainName' => :domain})
-
-      private
-
-      def merge_params
-        items = []
-      end
-      
     end
 
     class DeleteAttributes < Template
