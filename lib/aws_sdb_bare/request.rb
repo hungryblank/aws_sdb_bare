@@ -268,7 +268,7 @@ module AwsSdb
     end
 
     class Select < Template
-      shortcuts({'SelectExpression' =>  :query})
+      shortcuts({'SelectExpression' => :query})
     end
 
     class Query < Template

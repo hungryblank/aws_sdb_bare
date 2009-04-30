@@ -39,6 +39,14 @@ end
 
 task :default => :test
 
+task :hpricot do
+  ENV['PARSER'] = 'hpricot'
+end
+
+task :nokogiri do
+  ENV['PARSER'] = 'nokogiri'
+end
+
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
   if File.exist?('VERSION.yml')
