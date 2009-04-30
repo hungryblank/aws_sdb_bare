@@ -7,6 +7,7 @@ the SimpleDB service provided by Amazon.
 
 The aim of the project is to not commit to any http handling strategy and to
 not enforce any response parsing solution by default.
+
 The library provides XML response parsing through Hpricot or Nokogiri to
 test run the test against a specific parser
 
@@ -56,7 +57,8 @@ Amazon's 2007 11 07 specs so you can do
 
   request = AwsSdb::Request::ListDomains.new
 
-Instead of using the Base class like the previous example
+Instead of using the Base class like the previous example.
+
 Please refer to the gem rdocs and to the amazon documentation to see
 a list of all the available requests and their parameters
 
