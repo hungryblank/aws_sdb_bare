@@ -7,6 +7,8 @@ module AwsSdb
     class UnknownResponse < ArgumentError
     end
 
+    #returns an instance of the response, the class of the response is determined
+    #by the response content
     def self.parse(doc)
       @@parser ||= Hpricot if defined?(Hpricot)
       @@parser ||= Nokogiri if defined?(Nokogiri)
@@ -63,6 +65,8 @@ module AwsSdb
         @metadata ||= ResponseMetadata.new(@doc.at('ResponseMetadata'))
       end
 
+      #the token to get the following chunk of response in case the response
+      #is broken in parts due to the size limit being exceeded
       def token
         if token_element = @doc.at('NextToken')
           token_element.inner_html
@@ -87,6 +91,7 @@ module AwsSdb
 
       register
 
+      #hash of item attributes
       def attributes
         @attributes ||= attributes_hash(@doc)
       end

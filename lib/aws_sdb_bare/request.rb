@@ -217,7 +217,16 @@ module AwsSdb
     #would have the same effect
     class PutAttributes < Template
 
+      attr_accessor :attributes
+
       class << self
+
+        #multiple PutAttributes requests can be batched in one BatchPutAttributes
+        #just define the single PutAttributes and then pass them as args to
+        #the PutAttributes::batch method and you'll be returned the batched
+        #request.
+        #At the moment of writing the maximum number of requests you can batch
+        #are 25
         def batch(*requests)
           items_params = requests.map { |r| r.send(:expand!) }
           first_request = requests.first.request
@@ -236,16 +245,16 @@ module AwsSdb
 
       shortcuts({'ItemName' =>  :name, 'DomainName' => :domain})
 
-      def attributes=(attributes)
+      def expand_attributes!
         index = 0
-        attributes.keys.each do |attr_name|
+        @attributes.keys.each do |attr_name|
           replace = nil
-          values = case attributes[attr_name]
+          values = case @attributes[attr_name]
           when Hash
-            replace = attributes[attr_name][:replace].to_s
-            attributes[attr_name][:value].to_s
+            replace = @attributes[attr_name][:replace].to_s
+            @attributes[attr_name][:value].to_s
           else
-            attributes[attr_name].to_s
+            @attributes[attr_name].to_s
           end
           values = [values] unless values.is_a?(Array)
           values.each do |value|
@@ -257,26 +266,48 @@ module AwsSdb
         end
       end
 
+      private
+
+      def expand!
+        super
+        expand_attributes!
+      end
+
     end
 
     class BatchPutAttributes < Template
       shortcuts({'DomainName' => :domain})
     end
 
+    #delete some attributes from the given item, if no attributes
+    #are provided the whole item is deleted
+    #
+    #  DeleteAttributes.new(:domain => 'test_domain', :name => 'item_1'
+    #    :attributes => [:color, :shape])
     class DeleteAttributes < Template
       shortcuts({'ItemName' =>  :name, 'DomainName' => :domain})
     end
 
+    #execute a select statement
+    #  Select.new(:query => "SELECT * FROM test_domain")
     class Select < Template
       shortcuts({'SelectExpression' => :query})
     end
 
+    #execute a query statement returns the array of the item names
+    #satisfying the statment
+    #
+    #  Query.new(:domain => 'test_domain', :query => "['shape' = 'square']")
     class Query < Template
       shortcuts({'DomainName' =>  :domain,
                  'QueryExpression' => :query,
                  'MaxNumberOfItems' => :max})
     end
 
+    #execute a query with attributes statement returns the items
+    #satisfying statement
+    #
+    #  QueryWithAttributes.new(:domain => 'test_domain', :query => "['shape' = 'square']")
     class QueryWithAttributes < Template
       shortcuts({'DomainName' =>  :domain,
                  'QueryExpression' => :query,

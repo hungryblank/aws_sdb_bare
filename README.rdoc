@@ -8,22 +8,23 @@ the SimpleDB service provided by Amazon.
 The aim of the project is to not commit to any http handling strategy and to
 not enforce any response parsing solution by default.
 
+The idea behind this project is to provide a basic layer on top of which
+more high level libraries can be built.
+
 The library provides XML response parsing through Hpricot or Nokogiri to
-test run the test against a specific parser
+run the test against a specific parser
 
   rake nokogiri test
 
-  or
+Or
 
   rake hpricot test
 
-The rationale behind that project is to provide a basic layer on top of which
-more high level libraries can be built.
 
 == Project sources
 
 the project is hosted on github http://github.com/hungryblank/aws_sdb_bare
-blog posts explaining the usage can be found on assertbuggy.blogspot.com
+blog posts explaining the usage can be found on http://assertbuggy.blogspot.com
 
 == Support and bug tracking
 
@@ -62,9 +63,14 @@ Instead of using the Base class like the previous example.
 Please refer to the gem rdocs and to the amazon documentation to see
 a list of all the available requests and their parameters
 
+== Usage - Responses
+
 To parse a response you simply call AwsSdb::Response.parse(xml_doc) example:
 
   require 'open-uri'
+  require 'aws_sdb_bare'
+  #the following line could require nokogiri instead
+  require 'hpricot'
 
   request = AwsSdb::Request::ListDomains.new
   xml_response = open request.uri
@@ -72,7 +78,9 @@ To parse a response you simply call AwsSdb::Response.parse(xml_doc) example:
   puts response.domains
   puts response.metadata.box_usage
 
-Rdoc are available at rdoc.elastastic.com/aws_sdb_bare
+== Documentation
+
+Rdoc are available at http://rdoc.elastastic.com/aws_sdb_bare
 
 == Copyright
 
