@@ -24,6 +24,7 @@ Or
 == Project sources
 
 the project is hosted on github http://github.com/hungryblank/aws_sdb_bare
+
 blog posts explaining the usage can be found on http://assertbuggy.blogspot.com
 
 == Support and bug tracking
