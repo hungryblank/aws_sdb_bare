@@ -62,7 +62,7 @@ module AwsSdb
       end
 
       def metadata
-        @metadata ||= ResponseMetadata.new(@doc.at('ResponseMetadata'))
+        @metadata ||= Metadata.new(@doc.at('ResponseMetadata'))
       end
 
       #the token to get the following chunk of response in case the response

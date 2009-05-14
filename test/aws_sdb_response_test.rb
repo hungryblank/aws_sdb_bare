@@ -71,6 +71,16 @@ class AwsSdbRequestTest < Test::Unit::TestCase
 
   end
 
+  context "parsing a request" do
+
+    should "return the metadata" do
+      response = Response.parse(SAMPLE_RESPONSES['ListDomains'])
+      assert_equal '0.0000071759', response.metadata.box_usage
+    end
+    %w(ListDomains DomainMetadata)
+
+  end
+
   context "parsing DomainMetadata" do
 
     should "provide direct acceess to attributes" do
