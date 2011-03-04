@@ -16,7 +16,7 @@ module AwsSdb
       begin
         MEMBERS[parsed_doc.root.name].new(parsed_doc)
       rescue
-        raise UnknownResponse, "unkwonw response #{doc.inspect}"
+        raise UnknownResponse, "unknown response #{doc.inspect}"
       end
     end
 
