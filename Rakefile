@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "aws_sdb_bare"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{Amazon AWS SDB SimpleDB client library, low level and http lib agnostic}
     gem.email = "hungryblank@gmail.com"
     gem.homepage = "http://github.com/hungryblank/aws_sdb_bare"
     gem.authors = ["Paolo Negri"]
