@@ -9,8 +9,8 @@ module AwsSdb
       attr_accessor :account, :secret, :params
 
       def initialize(method, params, opts={})
-        @account = opts[:account] || ENV['AMAZON_ACCESS_KEY_ID']
-        @secret = opts[:secret] || ENV['AMAZON_SECRET_ACCESS_KEY']
+        @account = opts[:account] || (ENV['AMAZON_ACCESS_KEY_ID'] || ENV['AWS_ACCESS_KEY_ID'])
+        @secret = opts[:secret] || (ENV['AMAZON_SECRET_ACCESS_KEY'] || ENV['AWS_SECRET_ACCESS_KEY'])
         raise <<-end_msg unless @account && @secret
           Amazon AWS account or access key not defined
           Please pass {:account => 'your account', :secret => 'your secret'}
