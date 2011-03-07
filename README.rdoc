@@ -79,9 +79,9 @@ To parse a response you simply call AwsSdb::Response.parse(xml_doc) example:
   puts response.domains
   puts response.metadata.box_usage
 
-== Documentation
+== Contributors
 
-Rdoc are available at http://rdoc.elastastic.com/aws_sdb_bare
+  * Michael Gorsuch
 
 == Copyright
 
